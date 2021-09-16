@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 class Program {
 
+  //atributos globales guardar datos
+  public string[] nombres={};
+  public string[] CUI={};
+  public string[] correos={};
   //primer menu
   public static void PrimerMenu(){
-
+    Program objetos = new Program();
     //atributos globales para revision
     string[] revision_correos = {"@gmail.com","@yahoo.com"};
-
-    //atributos globales guardar datos
-    string[] nombres={};
-    string[] CUI={};
-    string[] correos={};
-
 
     //atributos
     int seleccion_menu=0;
@@ -32,12 +30,12 @@ class Program {
         seleccion_menu=Convert.ToInt32(Console.ReadLine());
         //Registro de usuario
         if(seleccion_menu==1){
-          Registro(nombres,CUI,correos,revision_correos);
+          Registro(revision_correos,objetos);
 
-          for (int i=0;i<nombres.Length;i++){
-            Console.WriteLine(nombres[i]);
-            Console.WriteLine(CUI[i]);
-            Console.WriteLine(correos[i]);
+          for (int i=0;i<objetos.nombres.Length;i++){
+            Console.WriteLine(objetos.nombres[i]);
+            Console.WriteLine(objetos.CUI[i]);
+            Console.WriteLine(objetos.correos[i]);
           }
         //Inicio de simulacion enviar al segundo menu
         }else if(seleccion_menu==2){
@@ -60,19 +58,20 @@ class Program {
   }
 
   //generacion de un nuveo registro
-  public static void Registro(string[] nombres, string[] CUI, string[] correos, string[] revision_correos){
+  public static void Registro(string[] revision_correos, Program objetos){
+
     //ingreso del nombre
     Console.WriteLine("Nombre Completo");
     string name = Console.ReadLine();
     name.ToLower();
-    nombres=nombres.Append(name);
+    objetos.nombres=objetos.nombres.Append(name);
     //ingreso del CUI
     bool ciclo = true;
     do{
       Console.WriteLine("CUI completo");
       string cui = Console.ReadLine();
       if(cui.Length == 13){
-        CUI = CUI.Append(cui);
+        objetos.CUI = objetos.CUI.Append(cui);
         ciclo=false;
       }else{
         Console.WriteLine("Error, vuelva a intentar");
@@ -87,7 +86,7 @@ class Program {
         //Console.WriteLine(revision_correos[i]);
         if(mail.Contains(revision_correos[i])){
           //Console.WriteLine("Si la contiene");
-          correos=correos.Append(mail);
+          objetos.correos=objetos.correos.Append(mail);
           ciclo=false;
         }
       }
