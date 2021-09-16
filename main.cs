@@ -55,7 +55,25 @@ class Program {
         //Mostrar los valores de las criptomonedas
         }else if(seleccion_menu==3){
           DateTime now = DateTime.Now;
-          Console.WriteLine(now.ToString("dd/MM/yyyy"));
+          //mostrar la fecha actual
+          Console.WriteLine("Fecha actual: "+now.ToString("dd/MM/yyyy"));
+          //guardar el mes
+          string mes=now.ToString("MM");
+          int mes_numero = int.Parse(mes);
+          //guardar el Dia 
+          string dia=now.ToString("dd");
+          int dia_numero = int.Parse(dia);
+          //obtener el multiplicador por el mes
+          float m = multiplicador(mes_numero);
+          //obtener el valor del bitcoin
+          double btc_valor =BTC(dia_numero,m);
+          Console.WriteLine("Valor del bitcoin: " + btc_valor);
+          //obtener el valor del Ethereum
+          double eth_valor =ETH(dia_numero,m);
+          Console.WriteLine("Valor del ethereum: "+ eth_valor);
+          //obtener el valor del Ripple
+          double xrp_valor =XRP(dia_numero,m);
+          Console.WriteLine("Valor del ripple: "+ xrp_valor);
         //Salir
         }else if(seleccion_menu==4){
           Console.WriteLine("Gracias, espero que vuelva pronto");
@@ -131,6 +149,67 @@ class Program {
         Console.WriteLine("Error, porfavor solo valores numericos");
       }
     }while(ciclo);
+  }
+
+  //obtener el multiplicador
+  public static float multiplicador(int mes){
+    switch(mes){
+      case 1:
+        return 0.86F;
+        break;
+      case 2:
+        return 1.42F;
+        break;
+      case 3:
+        return 0.97F;
+        break;
+      case 4:
+        return 0.5F;
+        break;
+      case 5:
+        return 1.71F;
+        break;
+      case 6:
+        return 0.91F;
+        break;
+      case 7:
+        return 0.35F;
+        break;
+      case 8:
+        return 0.7F;
+        break;
+      case 9:
+        return 1.82F;
+        break;
+      case 10:
+        return 0.98F;
+        break;
+      case 11:
+        return 1.82F;
+        break;
+      case 12:
+        return 1.55F;
+        break;
+    }
+    return 0F;
+  }
+ 
+  //calculo del costo del bitcoin
+  public static double BTC(int x, float m){
+    double y = (-(0.00001*(x*x*x))-(0.004*(x*x))+(0.1241*x)+(44.39*m));
+    return y;
+  }
+
+  //calculo del costo del Ethereum
+  public static double ETH(int x, float m){
+    double y =(-(0.00003*(x*x*x))-(0.008*(x*x))+(0.2271*x)+(32.35*m));
+    return y;
+  }
+
+  //calculo del costo del Ripple
+  public static double XRP(int x, float m){
+    double y=(-(0.00009*(x*x*x))-(0.002*(x*x))+(0.2539*x)+(25.78*m));
+    return y;
   }
 
   //Segundo menu 
