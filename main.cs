@@ -1,4 +1,7 @@
 /*
+https://www.tutorialsteacher.com/csharp/csharp-stringbuilder#:~:text=Use%20the%20Append()%20method,newline%20character%20at%20the%20end.
+*/
+/*
 Universidad Rafael Landivar
 Facultad de Ingeniería
 Introducción a la Programación
@@ -222,37 +225,214 @@ class Program {
 
   //Segundo menu 
   public static void SegundoMenu(){
+    bool ciclo =true;
+    bool ciclo2=true;
+    int seleccion_menu2=0;
+    DateTime[] fechas = {};
     do{
-    Console.WriteLine("1. Comprar criptomonedas");
-    Console.WriteLine("2. Vender criptomonedas");
-    Console.WriteLine("3. Intercambiar criptomonedas");
-    Console.WriteLine("4. Prediccion de ganancias");
-    Console.WriteLine("5. Resumen de operaciones");
-    Console.WriteLine("6. Salir");
+      float dinero = 500F;
+      float bitcoin = 0F;
+      float ethereum = 0F;
+      float ripple = 0F;
+      DateTime fecha;
+      
+      //fechas[0]=new DateTime(fechas a ingresar);
+      Console.WriteLine("1. Comprar criptomonedas");
+      Console.WriteLine("2. Vender criptomonedas");
+      Console.WriteLine("3. Intercambiar criptomonedas");
+      Console.WriteLine("4. Prediccion de ganancias");
+      Console.WriteLine("5. Resumen de operaciones");
+      Console.WriteLine("6. Salir");
     
+      
+      try{
+        Console.WriteLine("\n Elija una opcion.\t ");
+        seleccion_menu2=Convert.ToInt32(Console.ReadLine());
+        int seleccion_moneda=0;
+        int cantidad_moneda=0;
+        string fecha_ingresada;
+        DateTime fecha_ingresada_prueba;
+        switch(seleccion_menu2){
+          //comprar criptomonedas
+          case 1:
+            bool pregunta = true;
+            do{
+              Console.WriteLine("Escoja que criptomoneda desea comprar. \n");
+              Console.WriteLine("1. BTC");
+              Console.WriteLine("2. ETH");
+              Console.WriteLine("3. XRP \n");
+              //seleccion_moneda = float.Parse(Console.ReadLine())
 
-    try{
-      Console.WriteLine("\n Elija una opcion.\t ");
-      seleccion_menu2=Convert.ToInt32(Console.ReadLine());
-      switch(seleccion_menu2){
-        case 1:
+              //Se asumio que la compra de criptomonedas son valores enteros
+              try{
+                seleccion_moneda = Convert.ToInt32(Console.ReadLine());
+                if(seleccion_moneda == 1){
+                  Console.WriteLine("Ingrese la cantidad que desea Comprar. \n");
+                  do{
+                    try{
+                      cantidad_moneda = Convert.ToInt32(Console.ReadLine());
+                      //verificar si cumple con las condiciones
+                      if(cantidad_moneda>0){
+                        pregunta=false;
+                      }else{
+                        Console.WriteLine("Error, no se logro intente de nuevo\n");
+                      }
+                    }catch(Exception e){
+                      pregunta = true;
+                      Console.WriteLine("Porfavor, solo valores numericos.\n"); 
+                    }
+                  }while(pregunta);
+                  pregunta = true;
+                  Console.WriteLine("Ingrese la fecha que desea para comprar la moneda. (Ejemplo: 09/16/2021). \n"); 
+                  do{
+                    try{
+                      fecha_ingresada = Console.ReadLine();
+                      //fecha_ingresada_prueba = DateTime.Parse(Console.ReadLine());
+                      //Console.WriteLine(fecha_ingresada);
+                      fecha_ingresada_prueba=Convert.ToDateTime(fecha_ingresada);
+                      //Console.WriteLine(fecha_ingresada_prueba);
+                      //(fecha,fecha2). Una lista de fechas, for recorrido a todas las fechas que no sean menores al ingresado, 
+                      //y si es el mayor el ingresado, se hace la compra, de lo contrario, lo mnada a la mierda
+                      //Console.WriteLine(fechas.Length);
+                      if(fechas.Length == 0){
+                        fechas = fechas.Append(fecha_ingresada_prueba);
+                        for(int i=0;i<fechas.Length;i++){
+                          Console.WriteLine(fechas[i]);
+                        }
+                        pregunta = false;
+                      }
+                      else{
+                          int resultado = DateTime.Compare(fecha_ingresada_prueba, fechas[fechas.Length-1]);
+                          
+                          Console.WriteLine(resultado); // 0 ambos son iguales, >0: fecha 1 es despues que fecha2, <0: fecha 1 es antes que fecha2
+                          if(resultado <= 0){
+                            Console.WriteLine("No se puede comprar esta fecha porque ya son pasadas o son iguales... \n");
+                          }
+                          else{
+                            fechas = fechas.Append(fecha_ingresada_prueba);
+                            for(int i = 0; i < fechas.Length ; i++){
+                              Console.WriteLine(fechas[i]);
+                            }
+                          }
+                        
+                        pregunta = false;
+                        //int resultado = DateTime.Compare()
+                      }
+                      //Console.WriteLine(fechas.Length);
+                    }catch(Exception e){
+                      Console.WriteLine("Porfavor, solo el formato de fechas. \n"); 
+                    }
+                  }while(pregunta);
+                  ciclo=false;
 
-        case 2:
+                }else if(seleccion_moneda== 2){
+                  Console.WriteLine("Ingrese la cantidad que desea Comprar. \n");
+                  cantidad_moneda = Convert.ToInt32(Console.ReadLine());
 
-        case 3:
+                }else if(seleccion_moneda== 3){
+                  Console.WriteLine("Ingrese la cantidad que desea Comprar. \n");
+                  cantidad_moneda = Convert.ToInt32(Console.ReadLine());
+                  
+                }else{
+                  Console.WriteLine("Porfavor, escoja entre 1 al 3. \n");
+                }
 
-        case 4:
+              }catch(Exception e){
+                Console.WriteLine("Error, porfavor solo valores numericos \n");
+              }
+              
+            }while(ciclo);
+            break;  
+          //vender criptomonedas  
+          case 2:
+          ciclo=true;
+          pregunta = true;
+            //preguntar el tipo de criptomoneda que desea vender
+            do{
+              Console.WriteLine("Escoja que criptomoneda desea vender, escribiendo el numero. \n");
+              Console.WriteLine("1. BTC");
+              Console.WriteLine("2. ETH");
+              Console.WriteLine("3. XRP \n");
+              //Se asumio que la venta de criptomonedas son valores enteros
+              try{
+                seleccion_moneda = Convert.ToInt32(Console.ReadLine());
 
-        case 5:
+                if(seleccion_moneda ==1){
+                  //ingerso de la cantidad de criptomoneda
+                  Console.WriteLine("Ingrese la cantidad que desea vender. \n");
+                  do{
+                    try{
+                      cantidad_moneda = Convert.ToInt32(Console.ReadLine());
+                      //verificar si cumple con las condiciones
+                      if(cantidad_moneda>0 && cantidad_moneda<=bitcoin){
+                        pregunta=false;
+                      }else{
+                        Console.WriteLine("Error, no se logro intente de nuevo\n");
+                      }
+                    }catch(Exception e){
+                    Console.WriteLine("Porfavor, solo valores numericos.\n"); 
+                    }
+                  }while(pregunta);
+                  //Ingesar la fecha de venta
+                  pregunta=true;
+                  Console.WriteLine("Ingrese la fecha que desea realizar al venta. (Ejemplo: 9/16/2021).\n");
+                  do{
+                    try{
+                      fecha_ingresada_prueba = DateTime.Parse(Console.ReadLine());
+                      
+                    }catch(Exception e){
+                      Console.WriteLine("Porfavor solo en formato de fechas. \n");
+                    }
+                  }while(pregunta);
+                  ciclo2=false;
+                  
+                  
+                }else if(seleccion_moneda==2){
+                  Console.WriteLine("Ingrese la cantidad que desea vender. \n");
+                  
+
+                }else if(seleccion_moneda==3){
+                  Console.WriteLine("Ingrese la cantidad que desea vender. \n");
+                  
+
+                }else{
+                  Console.WriteLine("Porfavor, escoja entre 1 al 3. \n");
+                }
+
+              }catch(Exception e){
+                Console.WriteLine("Porfavor, escoja sola numeros del  1 al 3.\n");
+              }
+              
+            }while(ciclo2);
+
+              break;
+          //intercambiar criptomonedas
+          case 3:
+
+            break;
+          //Cantidad de criptomonedas
+          case 4:
+
+            break;
+          //Resumen de operaciones
+          case 5:
+
+            break;
+          //salir
+          case 6:
+            Console.WriteLine("Regresando al menu principal... \n");
+            break;
+          default:
+            Console.WriteLine("Porfavor ingresar del 1 al 6 \n");
+            break;
+        }
+
       }
+      catch(Exception e){
+          Console.WriteLine("Por favor ingresar solo valores numericos... \n");
+        }
 
-    }
-    catch(Exception e){
-        Console.WriteLine("Por favor ingresar solo valores numericos... \n");
-        Console.WriteLine("Regresando al menu principal... \n");
-      }
-
-    }while(seleccion_menu2!=6)
+    }while(seleccion_menu2!=6);
     
 
     
@@ -278,3 +458,4 @@ public static class Extensions
       return result;
     }
   }
+  
