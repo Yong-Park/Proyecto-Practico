@@ -1,3 +1,11 @@
+/*
+Universidad Rafael Landivar
+Facultad de Ingeniería
+Introducción a la Programación
+
+Proyecto Practico #1
+*/
+// Librerias Utilizadas
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -214,7 +222,40 @@ class Program {
 
   //Segundo menu 
   public static void SegundoMenu(){
-    Console.WriteLine("Hola");
+    do{
+    Console.WriteLine("1. Comprar criptomonedas");
+    Console.WriteLine("2. Vender criptomonedas");
+    Console.WriteLine("3. Intercambiar criptomonedas");
+    Console.WriteLine("4. Prediccion de ganancias");
+    Console.WriteLine("5. Resumen de operaciones");
+    Console.WriteLine("6. Salir");
+    
+
+    try{
+      Console.WriteLine("\n Elija una opcion.\t ");
+      seleccion_menu2=Convert.ToInt32(Console.ReadLine());
+      switch(seleccion_menu2){
+        case 1:
+
+        case 2:
+
+        case 3:
+
+        case 4:
+
+        case 5:
+      }
+
+    }
+    catch(Exception e){
+        Console.WriteLine("Por favor ingresar solo valores numericos... \n");
+        Console.WriteLine("Regresando al menu principal... \n");
+      }
+
+    }while(seleccion_menu2!=6)
+    
+
+    
   }
 
   //el main 
