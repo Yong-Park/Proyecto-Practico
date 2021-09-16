@@ -30,19 +30,32 @@ class Program {
         seleccion_menu=Convert.ToInt32(Console.ReadLine());
         //Registro de usuario
         if(seleccion_menu==1){
-          Registro(revision_correos,objetos);
-
-          for (int i=0;i<objetos.nombres.Length;i++){
+          if(objetos.nombres.Length==0){
+            Registro(revision_correos,objetos);
+          }else{
+            Console.WriteLine("Ya existe un usuario");
+          }
+          
+          //prueba para ver si se guardan los registros
+          /*for (int i=0;i<objetos.nombres.Length;i++){
             Console.WriteLine(objetos.nombres[i]);
             Console.WriteLine(objetos.CUI[i]);
             Console.WriteLine(objetos.correos[i]);
-          }
+          }*/
         //Inicio de simulacion enviar al segundo menu
         }else if(seleccion_menu==2){
-
+          //revisar que ya haya un registro antes de lo contrario se generara un registro
+          if(objetos.nombres.Length>0){
+            SegundoMenu();
+          }else{
+            Console.WriteLine("No se puede acceder debido a que no existen registros previos");
+            Console.WriteLine("Direccionando para crear registro");
+            Registro(revision_correos,objetos);
+          }
         //Mostrar los valores de las criptomonedas
         }else if(seleccion_menu==3){
-
+          DateTime dateTime = DateTime.UtcNow.Date;
+          Console.WriteLine(dateTime.ToString("dd/MM/yyyy"));
         //Salir
         }else if(seleccion_menu==4){
           Console.WriteLine("Gracias, espero que vuelva pronto");
@@ -96,8 +109,36 @@ class Program {
     }while(ciclo);
     //al terminar ciclo desplegar si desea ingreasr o no
 
+    ciclo=true;
+    do{
+      int acceder_simulacion=0;
+      Console.WriteLine("____________________________");
+      Console.WriteLine("Desea iniciar la simulacion?");
+      Console.WriteLine("1. Si");
+      Console.WriteLine("2. No");
+      try{
+        //conversion del tipo string a int
+        acceder_simulacion=Convert.ToInt32(Console.ReadLine());
+        if(acceder_simulacion==1){
+          SegundoMenu();
+          ciclo=false;
+        }else if(acceder_simulacion==2){
+          ciclo=false;
+        }else{
+          Console.WriteLine("Error, porfavor escoga entre 1 o 2");
+        }
+      }catch(Exception e){
+        Console.WriteLine("Error, porfavor solo valores numericos");
+      }
+    }while(ciclo);
   }
 
+  //Segundo menu 
+  public static void SegundoMenu(){
+    Console.WriteLine("Hola");
+  }
+
+  //el main 
   public static void Main (string[] args) {
     PrimerMenu();
     
