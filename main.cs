@@ -54,8 +54,8 @@ class Program {
           }
         //Mostrar los valores de las criptomonedas
         }else if(seleccion_menu==3){
-          DateTime dateTime = DateTime.UtcNow.Date;
-          Console.WriteLine(dateTime.ToString("dd/MM/yyyy"));
+          DateTime now = DateTime.Now;
+          Console.WriteLine(now.ToString("dd/MM/yyyy"));
         //Salir
         }else if(seleccion_menu==4){
           Console.WriteLine("Gracias, espero que vuelva pronto");
