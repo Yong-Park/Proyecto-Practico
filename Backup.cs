@@ -1,11 +1,10 @@
 /*
 https://www.tutorialsteacher.com/csharp/csharp-stringbuilder#:~:text=Use%20the%20Append()%20method,newline%20character%20at%20the%20end.
 */
-/* 
+/*
 Universidad Rafael Landivar
 Facultad de Ingeniería
 Introducción a la Programación
-
 Proyecto Practico #1
 */
 // Librerias Utilizadas
@@ -17,8 +16,6 @@ using System.Threading.Tasks;
 
 class Program {
 
-  //atributos 
-  float m=0F;
   //atributos globales guardar datos
   public string[] nombres={};
   public string[] CUI={};
@@ -77,7 +74,7 @@ class Program {
           string dia=now.ToString("dd");
           int dia_numero = int.Parse(dia);
           //obtener el multiplicador por el mes
-          m = multiplicador(mes_numero);
+          float m = multiplicador(mes_numero);
           //obtener el valor del bitcoin
           double btc_valor =BTC(dia_numero,m);
           Console.WriteLine("Valor del bitcoin: " + btc_valor);
@@ -227,8 +224,6 @@ class Program {
 
   //Segundo menu 
   public static void SegundoMenu(){
-    //atributos 
-    float m=0F;
     //para guaradr las fechas y meses
     string mes;
     int mes_numero=0;
@@ -243,7 +238,6 @@ class Program {
     //donde se guardan los tipos de compras y ventas y sus fechas respectivas
     string[] compras ={};
     DateTime[] fechas = {};
-    string[] division = {};
     //valores inicilaes del consumidor
     double dinero = 500D;
     double bitcoin = 0D;
@@ -269,7 +263,6 @@ class Program {
         seleccion_menu2=Convert.ToInt32(Console.ReadLine());
         int seleccion_moneda=0;
         int cantidad_moneda=0;
-        int seleccion_destino = 0;
         string fecha_ingresada;
         DateTime fecha_ingresada_prueba;
         switch(seleccion_menu2){
@@ -308,7 +301,7 @@ class Program {
                       //ingreso de fecha
                       fecha_ingresada = Console.ReadLine();
                       //partir la fecha por sus dias y mes para el calculo 
-                      division= fecha_ingresada.Split("/");
+                      string[] division= fecha_ingresada.Split("/");
                       mes=division[0];
                       mes_numero=int.Parse(mes);
                       dia=division[1];
@@ -354,7 +347,7 @@ class Program {
                   }while(pregunta);
                   //Realizar la compra de las criptomonedas
                   while(posible_compra){
-                    m = multiplicador(mes_numero);
+                    float m = multiplicador(mes_numero);
                     double y = BTC(dia_numero, m);
                     double total_gasto = y * cantidad_moneda;
                     /*
@@ -406,7 +399,7 @@ class Program {
                       //ingreso de fecha
                       fecha_ingresada = Console.ReadLine();
                       //partir la fecha por sus dias y mes para el calculo 
-                      division= fecha_ingresada.Split("/");
+                      string[] division= fecha_ingresada.Split("/");
                       mes=division[0];
                       mes_numero=int.Parse(mes);
                       dia=division[1];
@@ -452,7 +445,7 @@ class Program {
                   }while(pregunta);
                   //Realizar la compra de las criptomonedas
                   while(posible_compra){
-                    m = multiplicador(mes_numero);
+                    float m = multiplicador(mes_numero);
                     double y = ETH(dia_numero, m);
                     double total_gasto = y * cantidad_moneda;
                     /*
@@ -504,7 +497,7 @@ class Program {
                       //ingreso de fecha
                       fecha_ingresada = Console.ReadLine();
                       //partir la fecha por sus dias y mes para el calculo 
-                      division= fecha_ingresada.Split("/");
+                      string[] division= fecha_ingresada.Split("/");
                       mes=division[0];
                       mes_numero=int.Parse(mes);
                       dia=division[1];
@@ -550,7 +543,7 @@ class Program {
                   }while(pregunta);
                   //Realizar la compra de las criptomonedas
                   while(posible_compra){
-                    m = multiplicador(mes_numero);
+                    float m = multiplicador(mes_numero);
                     double y = XRP(dia_numero, m);
                     double total_gasto = y * cantidad_moneda;
                     /*
@@ -628,7 +621,7 @@ class Program {
                         //ingreso de fecha
                         fecha_ingresada = Console.ReadLine();
                         //partir la fecha por sus dias y mes para el calculo 
-                        division= fecha_ingresada.Split("/");
+                        string[] division= fecha_ingresada.Split("/");
                         mes=division[0];
                         mes_numero=int.Parse(mes);
                         dia=division[1];
@@ -674,7 +667,7 @@ class Program {
                     }while(pregunta);
                     //Realizar la compra de las criptomonedas
                     while(posible_compra){
-                      m = multiplicador(mes_numero);
+                      float m = multiplicador(mes_numero);
                       double y = BTC(dia_numero, m);
                       double total_gasto = y * cantidad_moneda;
                       /*
@@ -727,7 +720,7 @@ class Program {
                         //ingreso de fecha
                         fecha_ingresada = Console.ReadLine();
                         //partir la fecha por sus dias y mes para el calculo 
-                        division= fecha_ingresada.Split("/");
+                        string[] division= fecha_ingresada.Split("/");
                         mes=division[0];
                         mes_numero=int.Parse(mes);
                         dia=division[1];
@@ -773,7 +766,7 @@ class Program {
                     }while(pregunta);
                     //Realizar la compra de las criptomonedas
                     while(posible_compra){
-                      m = multiplicador(mes_numero);
+                      float m = multiplicador(mes_numero);
                       double y = ETH(dia_numero, m);
                       double total_gasto = y * cantidad_moneda;
                       /*
@@ -820,13 +813,13 @@ class Program {
                       }
                     }while(pregunta);
                     pregunta = true;
-                    Console.WriteLine("Ingrese la fecha que desea para vender la moneda. (Ejemplo: 09/16/2021). \n"); 
+                    Console.WriteLine("Ingrese la fecha que desea para comprar la moneda. (Ejemplo: 09/16/2021). \n"); 
                     do{
                       try{
                         //ingreso de fecha
                         fecha_ingresada = Console.ReadLine();
                         //partir la fecha por sus dias y mes para el calculo 
-                        division= fecha_ingresada.Split("/");
+                        string[] division= fecha_ingresada.Split("/");
                         mes=division[0];
                         mes_numero=int.Parse(mes);
                         dia=division[1];
@@ -851,7 +844,7 @@ class Program {
                             
                             //Console.WriteLine(resultado); // 0 ambos son iguales, >0: fecha 1 es despues que fecha2, <0: fecha 1 es antes que fecha2
                             if(resultado <= 0){
-                              Console.WriteLine("No se puede vender esta fecha porque ya son pasadas o son iguales... \n");
+                              Console.WriteLine("No se puede comprar esta fecha porque ya son pasadas o son iguales... \n");
                             }
                             else{
                               fechas = fechas.Append(fecha_ingresada_prueba);
@@ -872,7 +865,7 @@ class Program {
                     }while(pregunta);
                     //Realizar la compra de las criptomonedas
                     while(posible_compra){
-                      m = multiplicador(mes_numero);
+                      float m = multiplicador(mes_numero);
                       double y = XRP(dia_numero, m);
                       double total_gasto = y * cantidad_moneda;
                       /*
@@ -913,7 +906,7 @@ class Program {
           }else{
             Console.WriteLine("No es posible debido a que no tiene ninguna criptomoneda.\n");
           }
-            break;
+              break;
           //intercambiar criptomonedas
           case 3:
             ciclo = true;
@@ -954,7 +947,7 @@ class Program {
                         Console.WriteLine("2. XRP \n");
                         
                         try{
-                          seleccion_destino = Convert.ToInt32(Console.ReadLine());
+                          int seleccion_destino = Convert.ToInt32(Console.ReadLine());
                           if(seleccion_destino == 1){
                             Console.WriteLine("Ingrese la fecha que desea para intercambiar la criptomoneda. (Ejemplo: 09/16/2021). \n"); 
                             do{
@@ -962,7 +955,7 @@ class Program {
                                 //ingreso de fecha
                                 fecha_ingresada = Console.ReadLine();
                                 //partir la fecha por sus dias y mes para el calculo 
-                                division= fecha_ingresada.Split("/");
+                                string[] division= fecha_ingresada.Split("/");
                                 mes=division[0];
                                 mes_numero=int.Parse(mes);
                                 dia=division[1];
@@ -1000,7 +993,7 @@ class Program {
                             }while(pregunta);
                             //Realizar el intercambio de las criptomonedas
                             while(posible_compra){
-                              m = multiplicador(mes_numero);
+                              float m = multiplicador(mes_numero);
                               double y = BTC(dia_numero, m);
                               double x = ETH(dia_numero, m);
 
@@ -1043,9 +1036,9 @@ class Program {
               }while(pregunta);
             }    
             break;
-          //Prediccion de ganancias
+          //Prediccion de criptomonedas
           case 4:
-            bool pregunta = true;
+            pregunta = true;
             do{
               Console.WriteLine("Prediccion de ganancias");
               Console.WriteLine("Escoja que criptomoneda desea comprar. \n");
@@ -1079,7 +1072,7 @@ class Program {
                       //ingreso de fecha
                       fecha_ingresada = Console.ReadLine();
                       //partir la fecha por sus dias y mes para el calculo 
-                      division= fecha_ingresada.Split("/");
+                      string[] division= fecha_ingresada.Split("/");
                       mes=division[0];
                       mes_numero=int.Parse(mes);
                       dia=division[1];
@@ -1117,7 +1110,7 @@ class Program {
                   }while(pregunta);
                   //Realizar la compra de las criptomonedas
                   while(posible_compra){
-                    m = multiplicador(mes_numero);
+                    float m = multiplicador(mes_numero);
                     double y = BTC(dia_numero, m);
                     double total_gasto_1 = y * cantidad_moneda;
                     /*
@@ -1133,7 +1126,7 @@ class Program {
                           //ingreso de fecha
                           fecha_ingresada = Console.ReadLine();
                           //partir la fecha por sus dias y mes para el calculo 
-                          division= fecha_ingresada.Split("/");
+                          string[] division= fecha_ingresada.Split("/");
                           mes=division[0];
                           mes_numero=int.Parse(mes);
                           dia=division[1];
@@ -1171,7 +1164,7 @@ class Program {
                       //Realizar la compra de las criptomonedas
                       while(posible_compra){
                         m = multiplicador(mes_numero);
-                        double y = BTC(dia_numero, m);
+                        y = BTC(dia_numero, m);
                         double total_gasto_2 = y * cantidad_moneda;
                         //realizar la comparacion y ver si es ganancia o perdida
                         double total_gasto_general=total_gasto_2-total_gasto_1;
@@ -1219,7 +1212,7 @@ class Program {
                       //ingreso de fecha
                       fecha_ingresada = Console.ReadLine();
                       //partir la fecha por sus dias y mes para el calculo 
-                      division= fecha_ingresada.Split("/");
+                      string[] division= fecha_ingresada.Split("/");
                       mes=division[0];
                       mes_numero=int.Parse(mes);
                       dia=division[1];
@@ -1257,7 +1250,7 @@ class Program {
                   }while(pregunta);
                   //Realizar la compra de las criptomonedas
                   while(posible_compra){
-                    m = multiplicador(mes_numero);
+                    float m = multiplicador(mes_numero);
                     double y = ETH(dia_numero, m);
                     double total_gasto_1 = y * cantidad_moneda;
                     /*
@@ -1273,7 +1266,7 @@ class Program {
                           //ingreso de fecha
                           fecha_ingresada = Console.ReadLine();
                           //partir la fecha por sus dias y mes para el calculo 
-                          division= fecha_ingresada.Split("/");
+                          string[] division= fecha_ingresada.Split("/");
                           mes=division[0];
                           mes_numero=int.Parse(mes);
                           dia=division[1];
@@ -1311,7 +1304,7 @@ class Program {
                       //Realizar la compra de las criptomonedas
                       while(posible_compra){
                         m = multiplicador(mes_numero);
-                        double y = ETH(dia_numero, m);
+                        y = ETH(dia_numero, m);
                         double total_gasto_2 = y * cantidad_moneda;
                         //realizar la comparacion y ver si es ganancia o perdida
                         double total_gasto_general=total_gasto_2-total_gasto_1;
@@ -1358,7 +1351,7 @@ class Program {
                       //ingreso de fecha
                       fecha_ingresada = Console.ReadLine();
                       //partir la fecha por sus dias y mes para el calculo 
-                      division= fecha_ingresada.Split("/");
+                      string[] division= fecha_ingresada.Split("/");
                       mes=division[0];
                       mes_numero=int.Parse(mes);
                       dia=division[1];
@@ -1396,7 +1389,7 @@ class Program {
                   }while(pregunta);
                   //Realizar la compra de las criptomonedas
                   while(posible_compra){
-                    m = multiplicador(mes_numero);
+                    float m = multiplicador(mes_numero);
                     double y = XRP(dia_numero, m);
                     double total_gasto_1 = y * cantidad_moneda;
                     /*
@@ -1412,7 +1405,7 @@ class Program {
                           //ingreso de fecha
                           fecha_ingresada = Console.ReadLine();
                           //partir la fecha por sus dias y mes para el calculo 
-                          division= fecha_ingresada.Split("/");
+                          string[] division= fecha_ingresada.Split("/");
                           mes=division[0];
                           mes_numero=int.Parse(mes);
                           dia=division[1];
@@ -1450,7 +1443,7 @@ class Program {
                       //Realizar la compra de las criptomonedas
                       while(posible_compra){
                         m = multiplicador(mes_numero);
-                        double y = XRP(dia_numero, m);
+                        y = XRP(dia_numero, m);
                         double total_gasto_2 = y * cantidad_moneda;
                         //realizar la comparacion y ver si es ganancia o perdida
                         double total_gasto_general=total_gasto_2-total_gasto_1;
@@ -1502,24 +1495,23 @@ class Program {
             }
             Console.WriteLine("_______________________________________");
             //mostrar el saldo neto ya con todo y criptomonedas
-            string date = ToString(fechas[fechas.Length-1]);
+            string date = (fechas[fechas.Length-1]).ToString();
             Console.WriteLine("Fecha actual del sistema: " + date);
-            division= date.Split("/");
-            mes=division[0];
-            mes_numero=int.Parse(mes);
-            dia=division[1];
-            dia_numero=int.Parse(dia);
+            string[] division_final= date.Split("/");
+            string mes_final=division_final[0];
+            int mes_numero_final=int.Parse(mes_final);
+            string dia_final=division_final[1];
+            int dia_numero_final=int.Parse(dia_final);
             
-            m = multiplicador(mes_numero);
-            double x = BTC(dia_numero, m);
-            x=x*bitcoin;
-            double y = ETH(dia_numero,m);
-            y=y*ethereum;
-            double z = XRP(dia_numero,m);
-            z=z*ripple;
-            double total_ganancia=dinero + x + y+ z;
+            float m_final = multiplicador(mes_numero);
+            double x_final = BTC(dia_numero_final, m_final);
+            x_final*=bitcoin;
+            double y_final = ETH(dia_numero_final,m_final);
+            y_final*=ethereum;
+            double z_final = XRP(dia_numero_final,m_final);
+            z_final*=ripple;
+            double total_ganancia=dinero + x_final + y_final + z_final;
             Console.WriteLine("Saldo neto: $" + total_ganancia);
-            
             break;
           //salir
           case 6:
@@ -1536,6 +1528,9 @@ class Program {
         }
 
     }while(seleccion_menu2!=6);
+    
+
+    
   }
 
   //el main 
@@ -1558,4 +1553,3 @@ public static class Extensions
       return result;
     }
   }
-  
