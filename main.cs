@@ -225,25 +225,39 @@ class Program {
 
   //Segundo menu 
   public static void SegundoMenu(){
+    //para guaradr las fechas y meses
+    string mes;
+    int mes_numero=0;
+    string dia;
+    int dia_numero=0;
+    //ciclos para los do
     bool ciclo =true;
     bool ciclo2=true;
+    bool posible_compra=false;
+    //para seleccionar opciones
     int seleccion_menu2=0;
+    //donde se guardan los tipos de compras y ventas y sus fechas respectivas
+    string[] compras ={};
     DateTime[] fechas = {};
+    //valores inicilaes del consumidor
+    double dinero = 500D;
+    double bitcoin = 0D;
+    double ethereum = 0D;
+    double ripple = 0D;
+    DateTime fecha;
     do{
-      float dinero = 500F;
-      float bitcoin = 0F;
-      float ethereum = 0F;
-      float ripple = 0F;
-      DateTime fecha;
-      
-      //fechas[0]=new DateTime(fechas a ingresar);
+      Console.WriteLine("______________________________");
+      Console.WriteLine("Dinero total: $" + dinero );
+      Console.WriteLine("Bitcoin: " + bitcoin);
+      Console.WriteLine("Ethereum: " + ethereum);
+      Console.WriteLine("Ripple: " + ripple);
+      Console.WriteLine("______________________________");
       Console.WriteLine("1. Comprar criptomonedas");
       Console.WriteLine("2. Vender criptomonedas");
       Console.WriteLine("3. Intercambiar criptomonedas");
       Console.WriteLine("4. Prediccion de ganancias");
       Console.WriteLine("5. Resumen de operaciones");
       Console.WriteLine("6. Salir");
-    
       
       try{
         Console.WriteLine("\n Elija una opcion.\t ");
@@ -262,7 +276,6 @@ class Program {
               Console.WriteLine("2. ETH");
               Console.WriteLine("3. XRP \n");
               //seleccion_moneda = float.Parse(Console.ReadLine())
-
               //Se asumio que la compra de criptomonedas son valores enteros
               try{
                 seleccion_moneda = Convert.ToInt32(Console.ReadLine());
@@ -286,7 +299,14 @@ class Program {
                   Console.WriteLine("Ingrese la fecha que desea para comprar la moneda. (Ejemplo: 09/16/2021). \n"); 
                   do{
                     try{
+                      //ingreso de fecha
                       fecha_ingresada = Console.ReadLine();
+                      //partir la fecha por sus dias y mes para el calculo 
+                      string[] division= fecha_ingresada.Split("/");
+                      mes=division[0];
+                      mes_numero=int.Parse(mes);
+                      dia=division[1];
+                      dia_numero=int.Parse(dia);
                       //fecha_ingresada_prueba = DateTime.Parse(Console.ReadLine());
                       //Console.WriteLine(fecha_ingresada);
                       fecha_ingresada_prueba=Convert.ToDateTime(fecha_ingresada);
@@ -300,19 +320,22 @@ class Program {
                           Console.WriteLine(fechas[i]);
                         }
                         pregunta = false;
+                        posible_compra=true;
                       }
                       else{
                           int resultado = DateTime.Compare(fecha_ingresada_prueba, fechas[fechas.Length-1]);
                           
-                          Console.WriteLine(resultado); // 0 ambos son iguales, >0: fecha 1 es despues que fecha2, <0: fecha 1 es antes que fecha2
+                          //Console.WriteLine(resultado); // 0 ambos son iguales, >0: fecha 1 es despues que fecha2, <0: fecha 1 es antes que fecha2
                           if(resultado <= 0){
                             Console.WriteLine("No se puede comprar esta fecha porque ya son pasadas o son iguales... \n");
                           }
                           else{
                             fechas = fechas.Append(fecha_ingresada_prueba);
-                            for(int i = 0; i < fechas.Length ; i++){
+                            //demostrar todas las fechas que se ingresan
+                            /*for(int i = 0; i < fechas.Length ; i++){
                               Console.WriteLine(fechas[i]);
-                            }
+                            }*/
+                            posible_compra=true;
                           }
                         
                         pregunta = false;
@@ -323,6 +346,35 @@ class Program {
                       Console.WriteLine("Porfavor, solo el formato de fechas. \n"); 
                     }
                   }while(pregunta);
+                  //Realizar la compra de las criptomonedas
+                  while(posible_compra){
+                    float m = multiplicador(mes_numero);
+                    double y = BTC(dia_numero, m);
+                    double total_gasto = y * cantidad_moneda;
+                    /*
+                    revisar si el costo total de las criptomonedas no supera su saldo, 
+                    en caso que no supere realizar la compra, de lo contrario mencionar que 
+                    no se puedo y explciar la razon de ella 
+                    */
+                    if(total_gasto<=dinero){
+                      string mensaje_compra= ("Se realizo una compra de " + cantidad_moneda + " bitcoins y fue un gasto total de " + total_gasto);
+                      compras = compras.Append(mensaje_compra);
+                      Console.WriteLine(mensaje_compra);
+                      bitcoin += cantidad_moneda;
+                      dinero -=total_gasto;
+                    }else{
+                      Console.WriteLine("No se pudo realizar esta compra debido a que el saldo no alcanza. \n");
+                      //eliminar la fecha de esa compra debido a que fue cancelada
+                      fechas = fechas.SkipLast(1).ToArray();
+                    }
+                    posible_compra=false;
+                  };
+                  /*
+                  for(int i = 0; i < fechas.Length ; i++){
+                    Console.WriteLine(compras[i]);
+                    Console.WriteLine(fechas[i]);
+                  }*/
+                  //terminar el ciclo 
                   ciclo=false;
 
                 }else if(seleccion_moneda== 2){
