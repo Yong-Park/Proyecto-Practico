@@ -587,6 +587,8 @@ class Program {
           case 2:
           ciclo=true;
           pregunta = true;
+          //verificar si existe alguna criptomoneda, de lo contrario no ocurre nada
+          if(bitcoin>0 || ethereum>0 || ripple>0){
             //preguntar el tipo de criptomoneda que desea vender
             do{
               Console.WriteLine("Escoja que criptomoneda desea vender, escribiendo el numero. \n");
@@ -596,55 +598,315 @@ class Program {
               //Se asumio que la venta de criptomonedas son valores enteros
               try{
                 seleccion_moneda = Convert.ToInt32(Console.ReadLine());
-
-                if(seleccion_moneda ==1){
-                  //ingerso de la cantidad de criptomoneda
-                  Console.WriteLine("Ingrese la cantidad que desea vender. \n");
-                  do{
-                    try{
-                      cantidad_moneda = Convert.ToInt32(Console.ReadLine());
-                      //verificar si cumple con las condiciones
-                      if(cantidad_moneda>0 && cantidad_moneda<=bitcoin){
-                        pregunta=false;
-                      }else{
-                        Console.WriteLine("Error, no se logro intente de nuevo\n");
+                if(seleccion_moneda == 1){
+                  if(bitcoin>0){
+                    Console.WriteLine("Ingrese la cantidad que desea vender. \n");
+                    do{
+                      try{
+                        cantidad_moneda = Convert.ToInt32(Console.ReadLine());
+                        //verificar si cumple con las condiciones
+                        if(cantidad_moneda>0 && cantidad_moneda<=bitcoin){
+                          pregunta=false;
+                        }else{
+                          Console.WriteLine("Error, no se logro intente de nuevo\n");
+                        }
+                      }catch(Exception e){
+                        pregunta = true;
+                        Console.WriteLine("Porfavor, solo valores numericos.\n"); 
                       }
-                    }catch(Exception e){
-                    Console.WriteLine("Porfavor, solo valores numericos.\n"); 
-                    }
-                  }while(pregunta);
-                  //Ingesar la fecha de venta
-                  pregunta=true;
-                  Console.WriteLine("Ingrese la fecha que desea realizar al venta. (Ejemplo: 9/16/2021).\n");
-                  do{
-                    try{
-                      fecha_ingresada_prueba = DateTime.Parse(Console.ReadLine());
+                    }while(pregunta);
+                    pregunta = true;
+                    Console.WriteLine("Ingrese la fecha que desea para comprar la moneda. (Ejemplo: 09/16/2021). \n"); 
+                    do{
+                      try{
+                        //ingreso de fecha
+                        fecha_ingresada = Console.ReadLine();
+                        //partir la fecha por sus dias y mes para el calculo 
+                        string[] division= fecha_ingresada.Split("/");
+                        mes=division[0];
+                        mes_numero=int.Parse(mes);
+                        dia=division[1];
+                        dia_numero=int.Parse(dia);
+                        //fecha_ingresada_prueba = DateTime.Parse(Console.ReadLine());
+                        //Console.WriteLine(fecha_ingresada);
+                        fecha_ingresada_prueba=Convert.ToDateTime(fecha_ingresada);
+                        //Console.WriteLine(fecha_ingresada_prueba);
+                        //(fecha,fecha2). Una lista de fechas, for recorrido a todas las fechas que no sean menores al ingresado, 
+                        //y si es el mayor el ingresado, se hace la compra, de lo contrario, lo mnada a la mierda
+                        //Console.WriteLine(fechas.Length);
+                        if(fechas.Length == 0){
+                          fechas = fechas.Append(fecha_ingresada_prueba);
+                          for(int i=0;i<fechas.Length;i++){
+                            Console.WriteLine(fechas[i]);
+                          }
+                          pregunta = false;
+                          posible_compra=true;
+                        }
+                        else{
+                            int resultado = DateTime.Compare(fecha_ingresada_prueba, fechas[fechas.Length-1]);
+                            
+                            //Console.WriteLine(resultado); // 0 ambos son iguales, >0: fecha 1 es despues que fecha2, <0: fecha 1 es antes que fecha2
+                            if(resultado <= 0){
+                              Console.WriteLine("No se puede comprar esta fecha porque ya son pasadas o son iguales... \n");
+                            }
+                            else{
+                              fechas = fechas.Append(fecha_ingresada_prueba);
+                              //demostrar todas las fechas que se ingresan
+                              /*for(int i = 0; i < fechas.Length ; i++){
+                                Console.WriteLine(fechas[i]);
+                              }*/
+                              posible_compra=true;
+                            }
+                          
+                          pregunta = false;
+                          //int resultado = DateTime.Compare()
+                        }
+                        //Console.WriteLine(fechas.Length);
+                      }catch(Exception e){
+                        Console.WriteLine("Porfavor, solo el formato de fechas. \n"); 
+                      }
+                    }while(pregunta);
+                    //Realizar la compra de las criptomonedas
+                    while(posible_compra){
+                      float m = multiplicador(mes_numero);
+                      double y = BTC(dia_numero, m);
+                      double total_gasto = y * cantidad_moneda;
+                      /*
+                      revisar si el costo total de las criptomonedas no supera su saldo, 
+                      en caso que no supere realizar la compra, de lo contrario mencionar que 
+                      no se puedo y explciar la razon de ella 
+                      */
                       
-                    }catch(Exception e){
-                      Console.WriteLine("Porfavor solo en formato de fechas. \n");
-                    }
-                  }while(pregunta);
-                  ciclo2=false;
-                  
-                  
-                }else if(seleccion_moneda==2){
-                  Console.WriteLine("Ingrese la cantidad que desea vender. \n");
-                  
+                      string mensaje_compra= ("Se realizo una venta de " + cantidad_moneda + " bitcoins y se obtuevo una ganacia total de " + total_gasto);
+                      compras = compras.Append(mensaje_compra);
+                      Console.WriteLine(mensaje_compra);
+                      bitcoin -= cantidad_moneda;
+                      dinero +=total_gasto;
+                      
+                      posible_compra=false;
+                    };
+                    /*
+                    for(int i = 0; i < fechas.Length ; i++){
+                      Console.WriteLine(compras[i]);
+                      Console.WriteLine(fechas[i]);
+                    }*/
+                    //terminar el ciclo 
+                    ciclo=false;
+                  }else{
+                    Console.WriteLine("No se puede debio a que no tienes ningun bitcoin.\n");
+                    ciclo=false;
+                  }
 
-                }else if(seleccion_moneda==3){
-                  Console.WriteLine("Ingrese la cantidad que desea vender. \n");
-                  
+                }else if(seleccion_moneda== 2){
+                  if(ethereum>0){
+                    Console.WriteLine("Ingrese la cantidad que desea vender. \n");
+                    do{
+                      try{
+                        cantidad_moneda = Convert.ToInt32(Console.ReadLine());
+                        //verificar si cumple con las condiciones
+                        if(cantidad_moneda>0 && cantidad_moneda<=ethereum){
+                          pregunta=false;
+                        }else{
+                          Console.WriteLine("Error, no se logro intente de nuevo\n");
+                        }
+                      }catch(Exception e){
+                        pregunta = true;
+                        Console.WriteLine("Porfavor, solo valores numericos.\n"); 
+                      }
+                    }while(pregunta);
+                    pregunta = true;
+                    Console.WriteLine("Ingrese la fecha que desea para comprar la moneda. (Ejemplo: 09/16/2021). \n"); 
+                    do{
+                      try{
+                        //ingreso de fecha
+                        fecha_ingresada = Console.ReadLine();
+                        //partir la fecha por sus dias y mes para el calculo 
+                        string[] division= fecha_ingresada.Split("/");
+                        mes=division[0];
+                        mes_numero=int.Parse(mes);
+                        dia=division[1];
+                        dia_numero=int.Parse(dia);
+                        //fecha_ingresada_prueba = DateTime.Parse(Console.ReadLine());
+                        //Console.WriteLine(fecha_ingresada);
+                        fecha_ingresada_prueba=Convert.ToDateTime(fecha_ingresada);
+                        //Console.WriteLine(fecha_ingresada_prueba);
+                        //(fecha,fecha2). Una lista de fechas, for recorrido a todas las fechas que no sean menores al ingresado, 
+                        //y si es el mayor el ingresado, se hace la compra, de lo contrario, lo mnada a la mierda
+                        //Console.WriteLine(fechas.Length);
+                        if(fechas.Length == 0){
+                          fechas = fechas.Append(fecha_ingresada_prueba);
+                          for(int i=0;i<fechas.Length;i++){
+                            Console.WriteLine(fechas[i]);
+                          }
+                          pregunta = false;
+                          posible_compra=true;
+                        }
+                        else{
+                            int resultado = DateTime.Compare(fecha_ingresada_prueba, fechas[fechas.Length-1]);
+                            
+                            //Console.WriteLine(resultado); // 0 ambos son iguales, >0: fecha 1 es despues que fecha2, <0: fecha 1 es antes que fecha2
+                            if(resultado <= 0){
+                              Console.WriteLine("No se puede comprar esta fecha porque ya son pasadas o son iguales... \n");
+                            }
+                            else{
+                              fechas = fechas.Append(fecha_ingresada_prueba);
+                              //demostrar todas las fechas que se ingresan
+                              /*for(int i = 0; i < fechas.Length ; i++){
+                                Console.WriteLine(fechas[i]);
+                              }*/
+                              posible_compra=true;
+                            }
+                          
+                          pregunta = false;
+                          //int resultado = DateTime.Compare()
+                        }
+                        //Console.WriteLine(fechas.Length);
+                      }catch(Exception e){
+                        Console.WriteLine("Porfavor, solo el formato de fechas. \n"); 
+                      }
+                    }while(pregunta);
+                    //Realizar la compra de las criptomonedas
+                    while(posible_compra){
+                      float m = multiplicador(mes_numero);
+                      double y = ETH(dia_numero, m);
+                      double total_gasto = y * cantidad_moneda;
+                      /*
+                      revisar si el costo total de las criptomonedas no supera su saldo, 
+                      en caso que no supere realizar la compra, de lo contrario mencionar que 
+                      no se puedo y explciar la razon de ella 
+                      */
+                      
+                      string mensaje_compra= ("Se realizo una venta de " + cantidad_moneda + " ethereum y se obtuevo una ganacia total de " + total_gasto);
+                      compras = compras.Append(mensaje_compra);
+                      Console.WriteLine(mensaje_compra);
+                      ethereum -= cantidad_moneda;
+                      dinero +=total_gasto;
+                      
+                      posible_compra=false;
+                    };
+                    /*
+                    for(int i = 0; i < fechas.Length ; i++){
+                      Console.WriteLine(compras[i]);
+                      Console.WriteLine(fechas[i]);
+                    }*/
+                    //terminar el ciclo 
+                    ciclo=false;
+                  }else{
+                    Console.WriteLine("No se puede debio a que no tienes ningun ethereum.\n");
+                    ciclo=false;
+                  }
 
+                }else if(seleccion_moneda== 3){
+                  if(ripple>0){
+                    Console.WriteLine("Ingrese la cantidad que desea vender. \n");
+                    do{
+                      try{
+                        cantidad_moneda = Convert.ToInt32(Console.ReadLine());
+                        //verificar si cumple con las condiciones
+                        if(cantidad_moneda>0 && cantidad_moneda<=ripple){
+                          pregunta=false;
+                        }else{
+                          Console.WriteLine("Error, no se logro intente de nuevo\n");
+                        }
+                      }catch(Exception e){
+                        pregunta = true;
+                        Console.WriteLine("Porfavor, solo valores numericos.\n"); 
+                      }
+                    }while(pregunta);
+                    pregunta = true;
+                    Console.WriteLine("Ingrese la fecha que desea para comprar la moneda. (Ejemplo: 09/16/2021). \n"); 
+                    do{
+                      try{
+                        //ingreso de fecha
+                        fecha_ingresada = Console.ReadLine();
+                        //partir la fecha por sus dias y mes para el calculo 
+                        string[] division= fecha_ingresada.Split("/");
+                        mes=division[0];
+                        mes_numero=int.Parse(mes);
+                        dia=division[1];
+                        dia_numero=int.Parse(dia);
+                        //fecha_ingresada_prueba = DateTime.Parse(Console.ReadLine());
+                        //Console.WriteLine(fecha_ingresada);
+                        fecha_ingresada_prueba=Convert.ToDateTime(fecha_ingresada);
+                        //Console.WriteLine(fecha_ingresada_prueba);
+                        //(fecha,fecha2). Una lista de fechas, for recorrido a todas las fechas que no sean menores al ingresado, 
+                        //y si es el mayor el ingresado, se hace la compra, de lo contrario, lo mnada a la mierda
+                        //Console.WriteLine(fechas.Length);
+                        if(fechas.Length == 0){
+                          fechas = fechas.Append(fecha_ingresada_prueba);
+                          for(int i=0;i<fechas.Length;i++){
+                            Console.WriteLine(fechas[i]);
+                          }
+                          pregunta = false;
+                          posible_compra=true;
+                        }
+                        else{
+                            int resultado = DateTime.Compare(fecha_ingresada_prueba, fechas[fechas.Length-1]);
+                            
+                            //Console.WriteLine(resultado); // 0 ambos son iguales, >0: fecha 1 es despues que fecha2, <0: fecha 1 es antes que fecha2
+                            if(resultado <= 0){
+                              Console.WriteLine("No se puede comprar esta fecha porque ya son pasadas o son iguales... \n");
+                            }
+                            else{
+                              fechas = fechas.Append(fecha_ingresada_prueba);
+                              //demostrar todas las fechas que se ingresan
+                              /*for(int i = 0; i < fechas.Length ; i++){
+                                Console.WriteLine(fechas[i]);
+                              }*/
+                              posible_compra=true;
+                            }
+                          
+                          pregunta = false;
+                          //int resultado = DateTime.Compare()
+                        }
+                        //Console.WriteLine(fechas.Length);
+                      }catch(Exception e){
+                        Console.WriteLine("Porfavor, solo el formato de fechas. \n"); 
+                      }
+                    }while(pregunta);
+                    //Realizar la compra de las criptomonedas
+                    while(posible_compra){
+                      float m = multiplicador(mes_numero);
+                      double y = XRP(dia_numero, m);
+                      double total_gasto = y * cantidad_moneda;
+                      /*
+                      revisar si el costo total de las criptomonedas no supera su saldo, 
+                      en caso que no supere realizar la compra, de lo contrario mencionar que 
+                      no se puedo y explciar la razon de ella 
+                      */
+                      
+                      string mensaje_compra= ("Se realizo una venta de " + cantidad_moneda + " ripple y se obtuevo una ganacia total de " + total_gasto);
+                      compras = compras.Append(mensaje_compra);
+                      Console.WriteLine(mensaje_compra);
+                      ripple -= cantidad_moneda;
+                      dinero +=total_gasto;
+                      
+                      posible_compra=false;
+                    };
+                    /*
+                    for(int i = 0; i < fechas.Length ; i++){
+                      Console.WriteLine(compras[i]);
+                      Console.WriteLine(fechas[i]);
+                    }*/
+                    //terminar el ciclo 
+                    ciclo=false;
+                  }else{
+                    Console.WriteLine("No se puede debio a que no tienes ningun ripple.\n");
+                    ciclo=false;
+                  }
+                 
                 }else{
                   Console.WriteLine("Porfavor, escoja entre 1 al 3. \n");
                 }
 
               }catch(Exception e){
-                Console.WriteLine("Porfavor, escoja sola numeros del  1 al 3.\n");
+                Console.WriteLine("Error, porfavor solo valores numericos \n");
               }
               
-            }while(ciclo2);
-
+            }while(ciclo);
+          }else{
+            Console.WriteLine("No es posible debido a que no tiene ninguna criptomoneda.\n");
+          }
               break;
           //intercambiar criptomonedas
           case 3:
